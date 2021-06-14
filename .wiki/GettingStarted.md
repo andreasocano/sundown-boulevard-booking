@@ -12,6 +12,7 @@
 
 Before running the solution, go through the following checklist:
 
+
 * Consider adding sensitive information to a key vault and applying them to the solution upon deployment.
 * Create an SQL database and a user.
 * In [`SundownBoulevard.Booking.API/appSettings.json`](../SundownBoulevard.Booking.API/appSettings.json):
@@ -49,3 +50,14 @@ The next time you run the solution (or just the API), changes will be applied to
 The website uses `HttpClient` to call the API. On local development environments it threw a certificate error on a machine where a *localhost* certificate wasn't added the trusted certificate store.
 A workaround has been implemented in the form of a `HttpClientHandler` that allows the request to be sent in the event of a certificate error.
 This should only be used on local development environments.
+
+## Common issues & resolutions
+
+## Q. System.IO.DirectoryNotFoundException: Could not find a part of the path 'my-solution-path\SundownBoulevard.Booking.Website\bin\roslyn\csc.exe'.
+
+I just cloned down the solution but upon running it I get the above error.
+
+Go to Package Management Console.
+
+- Set `SundownBoulevard.Booking.Website` as the default project
+- Run `Update-Package Microsoft.CodeDom.Providers.DotNetCompilerPlatform -r` as per [this answer on stackoverflow](https://stackoverflow.com/questions/32780315/could-not-find-a-part-of-the-path-bin-roslyn-csc-exe)
