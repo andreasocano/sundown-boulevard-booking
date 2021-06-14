@@ -1,0 +1,35 @@
+﻿@model DateViewModel
+@{
+    var referenceDate = Model.ReferenceDate;
+    var daysInMonth = DateTime.DaysInMonth(referenceDate.Year, referenceDate.Month);
+    var numberOfMonthsInAYear = 12;
+    var culture = new System.Globalization.CultureInfo("en-US");
+}
+
+<h2>Choose date</h2>
+<div id="date-picker" data-year="@referenceDate.Year" data-month="@referenceDate.Month" data-day="@referenceDate.Day" data-reservation-id="@Model.ReservationID">
+    <a href="?year=@(referenceDate.Year - 1)"><strong><</strong></a>
+    <select id="date-months" onchange="updateDays(@referenceDate.Year, this.value); getTimeSlots();">
+        @for (int i = 1; i <= numberOfMonthsInAYear; i++)
+        {
+            <option value="@i" @(Model.IsForCurrentYear && i == referenceDate.Month ? "selected" : string.Empty) @(Model.IsForCurrentYear && i < referenceDate.Month ? "disabled" : string.Empty)>@culture.DateTimeFormat.GetMonthName(i) @referenceDate.Year</option>
+        }
+    </select>
+    <a href="?year=@(referenceDate.Year + 1)"><strong>></strong></a>
+    <select id="date-days" onchange="setDay(this.value)">
+        @for (int i = 1; i <= daysInMonth; i++)
+        {
+            var day = new DateTime(referenceDate.Year, referenceDate.Month, i);
+            <option value="@i" @(Model.IsForCurrentYear && i == referenceDate.Day ? "selected" : string.Empty) @(Model.IsForCurrentYear && i < referenceDate.Day ? "disabled" : string.Empty)>@i (@day.DayOfWeek)</option>
+        }
+    </select>
+</div>
+<div id="time-slots" style="max-width: 300px;margin: 1vh .5vw;">
+    @foreach (var timeSlot in Model.AllTimeSlots)
+    {
+        <button id="@timeSlot.Ticks" class="btn btn-default btn-time-slot @(Model.SpecificTimeSlots.Contains(timeSlot) ? string.Empty : "hide")" onclick="saveDate('@timeSlot.ToString()')">@timeSlot.Hours:@timeSlot.Minutes.ToString().PadLeft(2, '0')</button>
+    }
+</div>
+<div>
+    <p id="error-message" class="text-danger hide">The selected date is not available.</p>
+</div>

@@ -1,0 +1,8 @@
+﻿@model BookingViewModel
+<h2>Check your email for a code</h2>
+<p>We've sent an activation code to @Model.Email. Use it to confirm your booking. The link will expire in 15 minutes, so please follow it as soon as possible.</p>
+
+<form method="post" action="/booking/confirm">
+    <input name="activationCode" type="text" placeholder="Activation code" required />
+    <button>Confirm booking</button>
+</form>

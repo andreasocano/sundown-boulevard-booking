@@ -1,0 +1,28 @@
+﻿@model MenuViewModel
+
+<h2>Choose a drink</h2>
+<div id="menu" data-reservation-id="@Model.ReservationID">
+    @{ var setChecked = true; }
+    <div id="drinks">
+        @foreach (var drink in Model.Drinks)
+        {
+            <input type="radio" id="@drink.Name" name="@drink.Name" data-drink-object="@drink.Object" @(setChecked ? "checked" : string.Empty )>
+            <label for="@drink.Name">@drink.Name</label>
+            <p>@drink.Description</p>
+            setChecked = false;
+        }
+    </div>
+    <h2>Choose a dish</h2>
+    <div id="dish" data-dish-object="@Model.Dish.Object">
+        <h4 id="dish-name">@Model.Dish.Name</h4>
+        <p><strong>Category: </strong><span id="dish-category">@Model.Dish.Category</span></p>
+        <img id="dish-thumbnail" src="@Model.Dish.ThumnailURL" style="max-height: 200px;margin: 2vh auto;" />
+        <div style="display: flex;justify-content: space-between;">
+            <button class="btn btn-default" onclick="getDish()">Next dish</button>
+            <button class="btn btn-primary" onclick="saveMenu()">Continue</button>
+        </div>
+    </div>
+    <div>
+        <p id="error-message" class="text-danger hide">Something went wrong while processing the menu.</p>
+    </div>
+</div>

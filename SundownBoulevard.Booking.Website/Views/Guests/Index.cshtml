@@ -1,0 +1,8 @@
+﻿@model ReservationViewModel
+<h2>Choose number of guests</h2>
+<div id="guests" data-reservation-id="@Model.ReservationID">
+    @for (int i = 1; i <= 10; i++)
+    {
+        <button class="btn btn-default" onclick="saveNumberOfGuests(@i)">@i</button>
+    }
+</div>
